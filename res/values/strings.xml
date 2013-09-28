@@ -1048,6 +1048,20 @@
     <string name="rb_battery6">Planet</string>
     <string name="rb_battery7">Slider</string>
     <string name="rb_battery8">Brick</string>
+    <string name="status_bar_battery_status_cyanogenmod_circle">CM Circle</string>
+    <string name="status_bar_battery_status_cyanogenmod_circle_percentage">CM Circle w/ percentage</string>
+    <string name="status_bar_battery_status_dotted_circle">Dotted Circle w/ percentage</string>
+
+    <!-- Circle Color -->
+    <string name="circle_battery_color">Circle color</string>
+    <string name="circle_battery_text_color">Circle text color</string>
+    <string name="circle_battery_animation_speed">Circle animation speed</string>
+    <string name="circle_battery_animation_speed_none">None</string>
+    <string name="circle_battery_animation_speed_slow">Slow</string>
+    <string name="circle_battery_animation_speed_stock">Normal</string>
+    <string name="circle_battery_animation_speed_fast">Fast</string>
+    <string name="circle_battery_reset_title">Reset circle colors</string>
+    <string name="circle_battery_reset_summary">Reset circle colors to apply installed theme engine colors</string>
 
     <!-- NavBar -->
     <string name="right">Right</string>

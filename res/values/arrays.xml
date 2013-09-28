@@ -235,8 +235,12 @@
         <item>@string/rb_battery6</item>
         <item>@string/rb_battery7</item>
         <item>@string/rb_battery8</item>
+        <item>@string/status_bar_battery_status_cyanogenmod_circle</item>
+        <item>@string/status_bar_battery_status_cyanogenmod_circle_percentage</item>
+        <item>@string/status_bar_battery_status_dotted_circle</item>
         <item>@string/dont_show</item>
     </string-array>
+
     <string-array name="battery_icon_values" translatable="false">
         <item>0</item>
         <item>1</item>
@@ -250,6 +254,23 @@
         <item>9</item>
         <item>10</item>
         <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+
+    <string-array name="circle_battery_animation_speed_entries" >
+        <item>@string/circle_battery_animation_speed_none</item>
+        <item>@string/circle_battery_animation_speed_slow</item>
+        <item>@string/circle_battery_animation_speed_stock</item>
+        <item>@string/circle_battery_animation_speed_fast</item>
+    </string-array>
+
+    <string-array name="circle_battery_animation_speed_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
     </string-array>
 
     <!-- NavBar -->

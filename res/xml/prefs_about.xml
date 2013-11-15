@@ -32,8 +32,8 @@
             aokp:nameDev="IOKP"
             aokp:twitterHandle="IOKP_ROM"
             aokp:githubLink="@string/github_iokp"
-            aokp:donateLink="@string/donate_aokp"
-            aokp:emailDev="github@aokp.co"/>
+            aokp:donateLink="@string/donate_iokp"
+            aokp:emailDev="infamousrom@gmail.com"/>
 
     </PreferenceCategory>
 

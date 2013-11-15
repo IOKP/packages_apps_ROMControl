@@ -11,21 +11,11 @@
             android:key="iokp_website"
             android:title="@string/iokp_website_title"
             android:summary="@string/iokp_website_summary" />
-
+ 
         <Preference
-            android:key="iokp_review"
-            android:title="@string/iokp_review_title"
-            android:summary="@string/iokp_review_summary" />
-
-        <Preference
-            android:key="aokp_irc"
-            android:title="@string/aokp_irc_title"
-            android:summary="@string/aokp_irc_summary" />
-
-        <Preference
-            android:key="aokp_dynamic_changelog"
-            android:title="@string/dynamic_changelog_title"
-            android:summary="@string/dynamic_changelog_summary" />
+            android:key="iokp_download"
+            android:title="@string/iokp_download_title"
+            android:summary="@string/iokp_download_summary" />
 
         <com.aokp.romcontrol.widgets.DeveloperPreference
             android:title="IOKP"

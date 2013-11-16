@@ -35,7 +35,7 @@ public class About extends AOKPPreferenceFragment {
         setTitle(R.string.title_about);
         addPreferencesFromResource(R.xml.prefs_about);
         mSiteUrl = findPreference("iokp_website");
-        mReviewUrl = findPreference("iokp_review");
+        mReviewUrl = findPreference("iokp_download");
         mIrcUrl = findPreference("aokp_irc");
         mDynamicChangelog = findPreference("aokp_dynamic_changelog");
 

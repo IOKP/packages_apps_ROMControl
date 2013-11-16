@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemProperties;
 import android.os.Message;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -31,7 +30,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
-import android.preference.PreferenceActivity;
 import android.preference.TwoStatePreference;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -124,7 +122,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mCrtMode;
     CheckBoxPreference mCrtOff;
     CheckBoxPreference mDarkUI;
-    Preference mLcdDensity;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -140,10 +137,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private int mUiMode;
     private int mSeekbarProgress;
     int mUserRotationAngles = -1;
-
-    int newDensityValue;
-    DensityChanger densityFragment;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,7 +165,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mAllow180Rotation.setChecked((mUserRotationAngles & 4) != 0);
         mAllow270Rotation.setChecked((mUserRotationAngles & 8) != 0);
 
-
         mDisableBootAnimation = (CheckBoxPreference) findPreference(PREF_DISABLE_BOOTANIM);
 
         mCustomBootAnimation = findPreference(PREF_CUSTOM_BOOTANIM);
@@ -197,7 +189,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mShowActionOverflow = (CheckBoxPreference) findPreference(PREF_SHOW_OVERFLOW);
         mShowActionOverflow.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.UI_FORCE_OVERFLOW_BUTTON, false));
-
 
         mUserModeUI = (ListPreference) findPreference(PREF_USER_MODE_UI);
         int uiMode = Settings.System.getInt(mContentResolver,
@@ -236,17 +227,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 Settings.Secure.UI_INVERTED_MODE, 1) == 2;
         mDarkUI = (CheckBoxPreference) findPreference(PREF_DARK_UI);
         mDarkUI.setChecked(darkUIenabled);
-
-        mLcdDensity = findPreference("lcd_density_setup");
-        String currentProperty = SystemProperties.get("persist.lcd_density");
-        if (currentProperty.length() == 0) currentProperty = SystemProperties.get("ro.sf.lcd_density");
-        try {
-            newDensityValue = Integer.parseInt(currentProperty);
-        } catch (Exception e) {
-            getPreferenceScreen().removePreference(mLcdDensity);
-        }
-
-        mLcdDensity.setSummary(getResources().getString(R.string.current_lcd_density) + currentProperty);
 
         // hide option if device is already set to never wake up
         if (!mContext.getResources().getBoolean(
@@ -369,7 +349,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 Toast.makeText(getActivity(), R.string.show_overflow_toast_disable,
                         Toast.LENGTH_LONG).show();
             }
-
             return true;
        } else if (preference == mRecentKillAll) {
             boolean checked = ((TwoStatePreference) preference).isChecked();
@@ -403,11 +382,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 int crtMode = Settings.System.getInt(mContentResolver,
                         Settings.System.SYSTEM_POWER_CRT_MODE, 0);
                 mCrtMode.setSummary(mCrtMode.getEntries()[crtMode]);
-				
-        } else if (preference == mLcdDensity) {
-            ((PreferenceActivity) getActivity())
-                    .startPreferenceFragment(new DensityChanger(), true);
-            return true;
+            }
         } else if (preference == mDarkUI) {
             boolean checked = ((CheckBoxPreference) preference).isChecked();
             Settings.Secure.putInt(mContentResolver,
@@ -449,7 +424,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-                        // let it go
             if (requestCode == REQUEST_PICK_BOOT_ANIMATION) {
                 if (data == null) {
                     //Nothing returned by user, probably pressed back button in file manager

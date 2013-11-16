@@ -16,6 +16,11 @@
             android:key="iokp_download"
             android:title="@string/iokp_download_title"
             android:summary="@string/iokp_download_summary" />
+ 
+        <Preference
+            android:key="iokp_changelog"
+            android:title="@string/iokp_changelog_title"
+            android:summary="@string/iokp_changelog_summary" />
 
         <com.aokp.romcontrol.widgets.DeveloperPreference
             android:title="IOKP"

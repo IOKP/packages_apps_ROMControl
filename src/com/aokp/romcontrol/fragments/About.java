@@ -36,7 +36,7 @@ public class About extends AOKPPreferenceFragment {
         addPreferencesFromResource(R.xml.prefs_about);
         mSiteUrl = findPreference("iokp_website");
         mReviewUrl = findPreference("iokp_download");
-        mIrcUrl = findPreference("aokp_irc");
+        mIrcUrl = findPreference("iokp_changelog");
         mDynamicChangelog = findPreference("aokp_dynamic_changelog");
 
         PreferenceGroup devsGroup = (PreferenceGroup) findPreference("devs");
@@ -64,7 +64,7 @@ public class About extends AOKPPreferenceFragment {
             launchUrl("http://goo.gl/6UENPD");
             return true;
         } else if (preference == mIrcUrl) {
-            launchUrl(TEAMKANG_IRC);
+            launchUrl("http://www.infamousdevelopment.com/index.php?topic=148.0");
             return true;
         } else if (preference == mDynamicChangelog) {
             try {

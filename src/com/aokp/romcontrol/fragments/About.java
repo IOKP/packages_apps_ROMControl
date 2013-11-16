@@ -61,11 +61,7 @@ public class About extends AOKPPreferenceFragment {
             launchUrl("http://www.infamousdevelopment.com/index.php?board=28.0/");
             return true;
         } else if (preference == mReviewUrl) {
-            try {
-                launchActivity(MGERRIT, MGERRIT_MAIN_ENTRY);
-            } catch(ActivityNotFoundException failToMarket) {
-                launchUrl(MGERRIT_PLAYSTORE);
-            }
+            launchUrl("http://goo.gl/6UENPD");
             return true;
         } else if (preference == mIrcUrl) {
             launchUrl(TEAMKANG_IRC);

@@ -169,14 +169,18 @@
     <string name="devs">The Crew</string>
     <string name="iokp">Infamous Open Kang Project</string>
     <string name="iokp_website_title">IOKP Website</string>
-    <string name="iokp_website_summary">http://www.infamousdevelopment.com/</string>
+    <string name="iokp_website_summary">InfamousDevelopment.com/</string>
+    <string name="iokp_download_title">IOKP Downloads</string>
+    <string name="iokp_download_summary">Androidfilehost.com</string>
+    <string name="iokp_changelog_title">Change Log</string>
+    <string name="iokp_changelog_summary">Link to thread</string>
     <string name="iokp_review_title">mGerrit</string>
     <string name="iokp_review_summary">View IOKP\'s and AOSP\'s Gerrit Review instances quickly and easily</string>
     <string name="aokp_irc_title">Join us on IRC</string>
     <string name="aokp_irc_summary">#teamkang @ irc.freenode.net</string>
     <string name="about_iokp">About IOKP</string>
     <string name="about_iokp_summary">@null</string>
-    <string name="donate_aokp">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DBBCGTVJ984YG
+    <string name="donate_iokp">http://goo.gl/V01Vqx
     </string>
     <string name="github_iokp">https://github.com/IOKP</string>
     <string name="github_midnightRider67">https://github.com/MidnightRider67</string>
@@ -228,6 +232,7 @@
     <string name="system_power_crt_mode_horizontal">Portrait horizontal</string>
     <string name="system_power_crt_mode_vertical">Portrait vertical</string>
     <string name="system_power_crt_mode_both">Orientation dependent</string>
+    <string name="system_power_crt_mode_scale">Scale down</string>
     <string name="lefty_mode_title">Lefty mode</string>
     <string name="lefty_mode_summary">Swap NavBar location (requires UI restart)</string>
     <string name="rotate_180_title">Allow 180-degree rotation</string>

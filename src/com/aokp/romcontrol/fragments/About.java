@@ -35,8 +35,8 @@ public class About extends AOKPPreferenceFragment {
         setTitle(R.string.title_about);
         addPreferencesFromResource(R.xml.prefs_about);
         mSiteUrl = findPreference("iokp_website");
-        mReviewUrl = findPreference("iokp_review");
-        mIrcUrl = findPreference("aokp_irc");
+        mReviewUrl = findPreference("iokp_download");
+        mIrcUrl = findPreference("iokp_changelog");
         mDynamicChangelog = findPreference("aokp_dynamic_changelog");
 
         PreferenceGroup devsGroup = (PreferenceGroup) findPreference("devs");
@@ -61,14 +61,10 @@ public class About extends AOKPPreferenceFragment {
             launchUrl("http://www.infamousdevelopment.com/index.php?board=28.0/");
             return true;
         } else if (preference == mReviewUrl) {
-            try {
-                launchActivity(MGERRIT, MGERRIT_MAIN_ENTRY);
-            } catch(ActivityNotFoundException failToMarket) {
-                launchUrl(MGERRIT_PLAYSTORE);
-            }
+            launchUrl("http://goo.gl/6UENPD");
             return true;
         } else if (preference == mIrcUrl) {
-            launchUrl(TEAMKANG_IRC);
+            launchUrl("http://www.infamousdevelopment.com/index.php?topic=148.0");
             return true;
         } else if (preference == mDynamicChangelog) {
             try {

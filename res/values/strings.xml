@@ -172,7 +172,11 @@
     <string name="devs">The Crew</string>
     <string name="iokp">Infamous Open Kang Project</string>
     <string name="iokp_website_title">IOKP Website</string>
+<<<<<<< HEAD
     <string name="iokp_website_summary">InfamousDevelopment.com/</string>
+=======
+    <string name="iokp_website_summary">Checkout our forum and chat!</string>
+>>>>>>> 802cbef92f94f41aeeb230d1cfa488cf30472c01
     <string name="iokp_download_title">IOKP Downloads</string>
     <string name="iokp_download_summary">Androidfilehost.com</string>
     <string name="iokp_changelog_title">Change Log</string>

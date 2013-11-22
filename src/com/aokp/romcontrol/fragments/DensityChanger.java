@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2013 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.aokp.romcontrol.fragments;
 
@@ -23,13 +38,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.aokp.romcontrol.SettingsPreferenceFragment;
 import com.aokp.romcontrol.AOKPPreferenceFragment;
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.util.CMDProcessor;
 import com.aokp.romcontrol.util.CommandResult;
 import com.aokp.romcontrol.util.Helpers;
+import com.aokp.romcontrol.util.AbstractAsyncSuCMDProcessor;
 
-public class DensityChanger extends AOKPPreferenceFragment implements
+public class DensityChanger extends SettingsPreferenceFragment implements
         OnPreferenceChangeListener {
 
     private static final String TAG = "DensityChanger";
@@ -37,6 +54,7 @@ public class DensityChanger extends AOKPPreferenceFragment implements
     ListPreference mStockDensity;
     Preference mReboot;
     Preference mClearMarketData;
+    Preference mRebootClearData;
     Preference mOpenMarket;
     ListPreference mCustomDensity;
 
@@ -44,6 +62,8 @@ public class DensityChanger extends AOKPPreferenceFragment implements
 
     private static final int DIALOG_DENSITY = 101;
     private static final int DIALOG_WARN_DENSITY = 102;
+
+    protected Context mContext;
 
     int newDensityValue;
 
@@ -63,7 +83,9 @@ public class DensityChanger extends AOKPPreferenceFragment implements
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.lcd_density_setup);
 
-        String currentDensity = SystemProperties.get("persist.lcd_density");
+        mContext = getActivity().getApplicationContext();
+
+        String currentDensity = SystemProperties.get("ro.sf.lcd_density");
         PreferenceScreen prefs = getPreferenceScreen();
 
         mStockDensity = (ListPreference) findPreference("stock_density");
@@ -71,6 +93,7 @@ public class DensityChanger extends AOKPPreferenceFragment implements
 
         mReboot = findPreference("reboot");
         mClearMarketData = findPreference("clear_market_data");
+        mRebootClearData = findPreference("reboot_cleardata");
         mOpenMarket = findPreference("open_market");
 
         mCustomDensity = (ListPreference) findPreference("lcd_density");
@@ -80,8 +103,6 @@ public class DensityChanger extends AOKPPreferenceFragment implements
     @Override
     public void onResume() {
         super.onResume();
-
-        mClearMarketData.setSummary("");
     }
 
     @Override
@@ -97,9 +118,10 @@ public class DensityChanger extends AOKPPreferenceFragment implements
             pm.reboot("Resetting density");
             return true;
 
-        } else if (preference == mClearMarketData) {
-
-            new ClearMarketDataTask().execute("");
+        } else if (preference == mRebootClearData) {
+            PowerManager pm = (PowerManager) getActivity()
+                    .getSystemService(Context.POWER_SERVICE);
+            pm.reboot("Clear market data");
             return true;
 
         } else if (preference == mOpenMarket) {
@@ -163,20 +185,21 @@ public class DensityChanger extends AOKPPreferenceFragment implements
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                setLcdDensity(newDensityValue);
                                 dialog.dismiss();
-                                mCustomDensity.setSummary(newDensityValue + "");
-
+                                if (setLcdDensity(newDensityValue)) {
+                                    mCustomDensity.setSummary(newDensityValue + "");
+                                }
                             }
                         })
                         .setPositiveButton(getResources().getString(R.string.custom_density_dialog_button_reboot), new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                setLcdDensity(newDensityValue);
-                                PowerManager pm = (PowerManager) getActivity()
-                                        .getSystemService(Context.POWER_SERVICE);
-                                pm.reboot("Resetting density");
+                                if (setLcdDensity(newDensityValue)) {
+                                    PowerManager pm = (PowerManager) getActivity()
+                                            .getSystemService(Context.POWER_SERVICE);
+                                    pm.reboot("Resetting density");
+                                }
                             }
                         })
                         .setNegativeButton(getResources().getString(R.string.cancel),
@@ -205,26 +228,27 @@ public class DensityChanger extends AOKPPreferenceFragment implements
             }
         } else if (preference == mStockDensity) {
             newDensityValue = Integer.parseInt((String) newValue);
-            setLcdDensity(newDensityValue);
-            mStockDensity.setSummary(getResources().getString(R.string.stock_density_changed_summary) + newDensityValue);
+            if (setLcdDensity(newDensityValue)) {
+                mStockDensity.setSummary(getResources().getString(
+                    R.string.stock_density_changed_summary) + newDensityValue);
+            }
             return true;
         }
 
         return false;
     }
 
-    private void setLcdDensity(int newDensity) {
+    private boolean setLcdDensity(int newDensity) {
         Helpers.getMount("rw");
-        CommandResult cr = CMDProcessor.runSuCommand("grep persist.lcd_density /system/build.prop");
-        // not exists yet
-        if (cr.getStdout().length() == 0) {
-          CMDProcessor.runSuCommand("echo 'persist.lcd_density=" + newDensity + "' >> /system/build.prop");
-        // set existing value
-        } else {
-          CMDProcessor.runSuCommand("busybox sed -i 's|persist.lcd_density=.*|"
-                  + "persist.lcd_density" + "=" + newDensity + "|' " + "/system/build.prop");
+        if (!CMDProcessor.runSuCommand(
+        "busybox sed -i 's|ro.sf.lcd_density=.*|" + "ro.sf.lcd_density" + "=" + newDensity + "|' " + "/system/build.prop")
+        .success()) 
+        {
+            showRootDeniedInfoDialog();
+            return false;
         }
         Helpers.getMount("ro");
+        return true;
     }
 
     class ClearUserDataObserver extends IPackageDataObserver.Stub {
@@ -233,19 +257,53 @@ public class DensityChanger extends AOKPPreferenceFragment implements
         }
     }
 
-    private class ClearMarketDataTask extends AsyncTask<String, Void, Boolean> {
+    private void showRootDeniedInfoDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle(R.string.su_dialog_error_title);
+        alertDialog.setMessage(R.string.su_dialog_error_message);
+        alertDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        alertDialog.create().show();
+    }
+
+    /*private class ClearMarketDataTask extends AsyncTask<String, Void, Boolean> {
         protected Boolean doInBackground(String... stuff) {
             String vending = "/data/data/com.android.vending/";
-            CommandResult cr = CMDProcessor.runSuCommand("ls " + vending);
+            String gms = "/data/data/com.google.android.gms/";
+            String gsf = "/data/data/com.google.android.gsf/";
 
-            if (cr.getStdout() == null)
+            CommandResult cr = new CMDProcessor().runSuCommand("ls " + vending);
+            CommandResult cr_gms = new CMDProcessor().runSuCommand("ls " + gms);
+            CommandResult cr_gsf = new CMDProcessor().runSuCommand("ls " + gsf);
+
+            if (cr.stdout == null || cr_gms.stdout == null || cr_gsf.stdout == null)
                 return false;
 
-            for (String dir : cr.getStdout().split("\n")) {
+            /*for (String dir : cr.stdout.split("\n")) {
                 if (!dir.equals("lib")) {
                     String c = "rm -r " + vending + dir;
                     // Log.i(TAG, c);
-                    if (!CMDProcessor.runSuCommand(c).success())
+                    if (!new CMDProcessor().su.runWaitFor(c).success())
+                        return false;
+                }
+            }
+
+            for (String dir_gms : cr_gms.stdout.split("\n")) {
+                if (!dir_gms.equals("lib")) {
+                    String c_gms = "rm -r " + gms + dir_gms;
+                    // Log.i(TAG, c);
+                    if (!new CMDProcessor().su.runWaitFor(c_gms).success())
+                        return false;
+                }
+            }
+
+            for (String dir_gsf : cr_gsf.stdout.split("\n")) {
+                if (!dir_gsf.equals("lib")) {
+                    String c_gsf = "rm -r " + gsf + dir_gsf;
+                    // Log.i(TAG, c);
+                    if (!new CMDProcessor().su.runWaitFor(c_gsf).success())
                         return false;
                 }
             }
@@ -253,10 +311,11 @@ public class DensityChanger extends AOKPPreferenceFragment implements
         }
 
         protected void onPostExecute(Boolean result) {
-            mClearMarketData.setSummary(result ? getResources().getString(R.string.clear_market_data_cleared)
-                    : getResources().getString(R.string.clear_market_data_donot_cleared));
+            if (!result) {
+                showRootDeniedInfoDialog();
+            } else {
+                mClearMarketData.setSummary(getResources().getString(R.string.clear_market_data_cleared));
+            }
         }
-    }
+    }*/
 }
-
-

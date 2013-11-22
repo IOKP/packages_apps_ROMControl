@@ -60,6 +60,9 @@ public class StatusBarNotifications extends AOKPPreferenceFragment implements On
     private static final CharSequence PREF_STATUSBAR_BRIGHTNESS = "statusbar_brightness_slider";
     private static final CharSequence PREF_NOTIFICATION_VIBRATE = "notification";
     private static final CharSequence PREF_STATUSBAR_HIDDEN = "statusbar_hidden";
+    private static final String STATUS_BAR_AUTO_HIDE = "status_bar_auto_hide";
+    private static final String STATUS_BAR_QUICK_PEEK = "status_bar_quick_peek";
+    private static final CharSequence PREF_STATUSBAR_SWIPE_TIMEOUT = "statusbar_swipe_timeout";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
 
@@ -76,6 +79,9 @@ public class StatusBarNotifications extends AOKPPreferenceFragment implements On
     CheckBoxPreference mStatusbarSliderPreference;
     CheckBoxPreference mStatusBarHide;
     String mCustomLabelText = null;
+    CheckBoxPreference mStatusBarAutoHide;
+    CheckBoxPreference mStatusBarQuickPeek;
+    ListPreference mStatusBarSwipeTimeout;
 
     private int mUiMode;
     private int mSeekbarProgress;
@@ -126,6 +132,26 @@ public class StatusBarNotifications extends AOKPPreferenceFragment implements On
         mStatusBarHide = (CheckBoxPreference) findPreference(PREF_STATUSBAR_HIDDEN);
         mStatusBarHide.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.STATUSBAR_HIDDEN, false));
+
+        mStatusBarHide = (CheckBoxPreference) findPreference(PREF_STATUSBAR_HIDDEN);
+        mStatusBarHide.setChecked(Settings.System.getBoolean(mContentResolver,
+                Settings.System.STATUSBAR_HIDDEN, false));
+
+        mStatusBarAutoHide = (CheckBoxPreference) findPreference(STATUS_BAR_AUTO_HIDE);
+        mStatusBarAutoHide.setChecked(Settings.System.getInt(mContentResolver,
+                Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1);
+
+        mStatusBarQuickPeek = (CheckBoxPreference) findPreference(STATUS_BAR_QUICK_PEEK);
+        mStatusBarQuickPeek.setChecked(Settings.System.getInt(mContentResolver,
+                Settings.System.STATUSBAR_PEEK, 0) == 1);
+
+        mStatusBarSwipeTimeout = (ListPreference) findPreference(PREF_STATUSBAR_SWIPE_TIMEOUT);
+        int statusbarswipetimeout = Settings.System.getInt(getActivity().getContentResolver(),
+            Settings.System.STATUSBAR_PEEK_TIMEOUT, 5000);
+        mStatusBarSwipeTimeout.setValue(String.valueOf(statusbarswipetimeout));
+        mStatusBarSwipeTimeout.setSummary(mStatusBarSwipeTimeout.getEntry());
+        mStatusBarSwipeTimeout.setOnPreferenceChangeListener(this);
+
 
         mUiMode = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.CURRENT_UI_MODE, 0);
@@ -260,13 +286,31 @@ public class StatusBarNotifications extends AOKPPreferenceFragment implements On
             Settings.System.putBoolean(getActivity().getContentResolver(),
                     Settings.System.STATUSBAR_HIDDEN, checked ? true : false);
             return true;
+        } else if (preference == mStatusBarAutoHide) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.AUTO_HIDE_STATUSBAR,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mStatusBarQuickPeek) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.STATUSBAR_PEEK,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-
+        if (preference == mStatusBarSwipeTimeout) {
+            int statusbarswipetimeout = Integer.valueOf((String) newValue);
+            int index = mStatusBarSwipeTimeout.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.STATUSBAR_PEEK_TIMEOUT,
+                    statusbarswipetimeout);
+            mStatusBarSwipeTimeout.setSummary(mStatusBarSwipeTimeout.getEntries()[index]);
+            return true;
+        }
         return false;
     }
 

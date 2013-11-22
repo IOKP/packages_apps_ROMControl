@@ -84,8 +84,9 @@ public class HardwareKeys extends AOKPPreferenceFragment implements OnPreference
     private ListPreference mAssistLongPressAction;
     private ListPreference mAppSwitchPressAction;
     private ListPreference mAppSwitchLongPressAction;
-    private ListPreference mCameraPressAction;
-    private ListPreference mCameraLongPressAction;
+    private CheckBoxPreference mCameraWake;
+    private CheckBoxPreference mCameraSleepOnRelease;
+    private CheckBoxPreference mCameraMusicControls;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -199,15 +200,19 @@ public class HardwareKeys extends AOKPPreferenceFragment implements OnPreference
                 (CheckBoxPreference) prefScreen.findPreference(KEY_ENABLE_CUSTOM_BINDING);
 
         if (hasCameraKey) {
-            int pressAction = Settings.System.getInt(resolver,
-                    Settings.System.KEY_CAMERA_ACTION, ACTION_NOTHING);
-            mCameraPressAction = initActionList(KEY_CAMERA_PRESS, pressAction);
-
-            int longPressAction = Settings.System.getInt(resolver,
-                    Settings.System.KEY_CAMERA_LONG_PRESS_ACTION, ACTION_LAUNCH_CAMERA);
-            mCameraLongPressAction = initActionList(KEY_CAMERA_LONG_PRESS, longPressAction);
-
-            hasAnyBindableKey = true;
+            mCameraWake = (CheckBoxPreference)
+                prefScreen.findPreference(Settings.System.CAMERA_WAKE_SCREEN);
+            mCameraSleepOnRelease = (CheckBoxPreference)
+                prefScreen.findPreference(Settings.System.CAMERA_SLEEP_ON_RELEASE);
+            mCameraMusicControls = (CheckBoxPreference)
+                prefScreen.findPreference(Settings.System.CAMERA_MUSIC_CONTROLS);
+            boolean value = mCameraWake.isChecked();
+            mCameraMusicControls.setEnabled(!value);
+            mCameraSleepOnRelease.setEnabled(value);
+            if (getResources().getBoolean(
+                com.android.internal.R.bool.config_singleStageCameraKey)) {
+                cameraCategory.removePreference(mCameraSleepOnRelease);
+            }
         } else {
             prefScreen.removePreference(cameraCategory);
         }
@@ -274,14 +279,6 @@ public class HardwareKeys extends AOKPPreferenceFragment implements OnPreference
             handleActionListChange(mAppSwitchLongPressAction, newValue,
                     Settings.System.KEY_APP_SWITCH_LONG_PRESS_ACTION);
             return true;
-        } else if (preference == mCameraPressAction) {
-            handleActionListChange(mCameraPressAction, newValue,
-                    Settings.System.KEY_CAMERA_ACTION);
-            return true;
-        } else if (preference == mCameraLongPressAction) {
-            handleActionListChange(mCameraLongPressAction, newValue,
-                    Settings.System.KEY_CAMERA_LONG_PRESS_ACTION);
-            return true;
         }
 
         return false;
@@ -294,6 +291,12 @@ public class HardwareKeys extends AOKPPreferenceFragment implements OnPreference
             return true;
         } else if (preference == mLongPressToKill) {
             handleCheckboxClick(mLongPressToKill, Settings.System.KILL_APP_LONGPRESS_BACK);
+            return true;
+        } else if (preference == mCameraWake) {
+            // Disable camera music controls if camera wake is enabled
+            boolean isCameraWakeEnabled = mCameraWake.isChecked();
+            mCameraMusicControls.setEnabled(!isCameraWakeEnabled);
+            mCameraSleepOnRelease.setEnabled(isCameraWakeEnabled);
             return true;
         }
 

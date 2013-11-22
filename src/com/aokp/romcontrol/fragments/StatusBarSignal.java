@@ -17,6 +17,7 @@ public class StatusBarSignal extends AOKPPreferenceFragment implements
 
     private static final String STATUS_BAR_NETWORK_STATS = "status_bar_show_network_stats";
     private static final String STATUS_BAR_NETWORK_STATS_UPDATE = "status_bar_network_status_update";
+    private static final String KEY_STATUS_BAR_TRAFFIC = "status_bar_traffic";
 
     ListPreference mDbmStyletyle;
     ListPreference mWifiStyle;
@@ -27,7 +28,9 @@ public class StatusBarSignal extends AOKPPreferenceFragment implements
     CheckBoxPreference mHideSignal;
     CheckBoxPreference mAltSignal;
     CheckBoxPreference mShow4gForLte;
-    private CheckBoxPreference mNetworkStats;
+    CheckBoxPreference mHideAllSignal;
+    CheckBoxPreference mNetworkStats;
+    CheckBoxPreference mStatusBarTraffic;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,12 +78,20 @@ public class StatusBarSignal extends AOKPPreferenceFragment implements
         mShow4gForLte.setChecked(Settings.System.getBoolean(mContentRes,
                 Settings.System.STATUSBAR_SIGNAL_SHOW_4G_FOR_LTE, check4gByDefault));
 
+        mHideAllSignal = (CheckBoxPreference) findPreference("hide_all_signal");
+        mHideAllSignal.setChecked(Settings.System.getBoolean(mContentRes,
+                Settings.System.STATUSBAR_HIDE_ALL_SIGNAL_BARS, false));
+
        mNetStatsUpdate = (ListPreference) findPreference(STATUS_BAR_NETWORK_STATS_UPDATE);
         long statsUpdate = Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
                 Settings.System.STATUS_BAR_NETWORK_STATS_UPDATE_INTERVAL, 500);
         mNetStatsUpdate.setValue(String.valueOf(statsUpdate));
         mNetStatsUpdate.setSummary(mNetStatsUpdate.getEntry());
         mNetStatsUpdate.setOnPreferenceChangeListener(this);
+
+        mStatusBarTraffic = (CheckBoxPreference) findPreference(KEY_STATUS_BAR_TRAFFIC);
+        mStatusBarTraffic.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
+                Settings.System.STATUS_BAR_TRAFFIC, 0) == 1));
 
         if (Integer.parseInt(mDbmStyletyle.getValue()) == 0) {
             mColorPicker.setEnabled(false);
@@ -117,10 +128,19 @@ public class StatusBarSignal extends AOKPPreferenceFragment implements
             Settings.System.putBoolean(mContentRes,
                     Settings.System.STATUSBAR_SIGNAL_SHOW_4G_FOR_LTE, mShow4gForLte.isChecked());
             return true;
+        } else if  (preference == mHideAllSignal) {
+            Settings.System.putBoolean(mContentRes,
+                    Settings.System.STATUSBAR_HIDE_ALL_SIGNAL_BARS, mHideAllSignal.isChecked());
+            return true;
         } else if (preference == mNetworkStats) {
             boolean value = mNetworkStats.isChecked();
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.STATUS_BAR_NETWORK_STATS, value ? 1 : 0);
+            return true;
+        } else if (preference == mStatusBarTraffic) {
+            boolean value = mStatusBarTraffic.isChecked();
+            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
+                    Settings.System.STATUS_BAR_TRAFFIC, value ? 1 : 0);
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);

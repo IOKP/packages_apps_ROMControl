@@ -70,7 +70,7 @@
     <string name="header_summary_lockscreens">@null</string>
     <string name="header_summary_weather">@null</string>
     <string name="header_summary_vibrations">@null</string>
-    <string name="header_summary_summary">@null</string>
+    <string name="ribbon_settings_summary">@null</string>
     <string name="header_summary_installer">@null</string>
     <string name="header_summary_hardware_keys">@null</string>
     <string name="header_summary_activedisplay">@null</string>
@@ -172,11 +172,7 @@
     <string name="devs">The Crew</string>
     <string name="iokp">Infamous Open Kang Project</string>
     <string name="iokp_website_title">IOKP Website</string>
-<<<<<<< HEAD
     <string name="iokp_website_summary">InfamousDevelopment.com/</string>
-=======
-    <string name="iokp_website_summary">Checkout our forum and chat!</string>
->>>>>>> 802cbef92f94f41aeeb230d1cfa488cf30472c01
     <string name="iokp_download_title">IOKP Downloads</string>
     <string name="iokp_download_summary">Androidfilehost.com</string>
     <string name="iokp_changelog_title">Change Log</string>
@@ -431,6 +427,8 @@
     <string name="title_clock_doubleclick">Clock double click actions</string>
     <string name="title_clock_longclick">Clock long click actions</string>
     <string name="title_clock_shortclick">Clock short click actions</string>
+    <string name="enable_clock_date">Show date</string>
+    <string name="enable_clock_date_summary">Shows current date centered</string>
 
     <!-- Toggle Strings to be called from device overlays -->
     <string name="toggle_airplane_mode">Airplane Mode</string>
@@ -490,10 +488,14 @@
     <string name="alt_signal_summary">Use alternate Gingerbread style signal cluster</string>
     <string name="show_4g_for_lte_title">Use 4G icon on LTE</string>
     <string name="show_4g_for_lte_summary">Show 4G network indicator icon instead of LTE icon</string>
+    <string name="hide_all_signal_title">Hide signal and WiFi bars</string>
+    <string name="hide_all_signal_summary">Checking this hides signal and WiFi bar indicators</string>
     <string name="status_bar_network_title">Network traffic</string>
     <string name="status_bar_show_network_stats_title">Show network speeds</string>
     <string name="status_bar_network_stats_update_title">Update frequency</string>
     <string name="status_bar_network_stats_color_title">Network speeds text color</string>
+    <string name="show_network_speed">Network speed indicator</string>
+    <string name="show_network_speed_summary">Show alternative network speed (color can\'t be changed)</string>
 
     <!-- Color Picker -->
     <string name="dialog_color_picker">Color Picker</string>
@@ -708,6 +710,7 @@
     <string name="title_charging_led_on">Enable LED while charging (requires reboot)</string>
     <string name="led_change_brightness">Change brightness</string>
     <string name="led_brightness_default">Default brightness: 31</string>
+    <string name="title_bln"><b>B</b>utton<b>L</b>ight<b>N</b>otification</string>
 
     <!-- Sound -->
     <string name="increasing_ring_title">Ascending ringtone</string>
@@ -795,6 +798,8 @@
     </string>
     <string name="lockscreen_camera_widget_title">Lockscreen camera widget</string>
     <string name="lockscreen_camera_widget_summary">Allows you to disable camera widget in lockscreen.</string>
+    <string name="lockscreen_battery_around_lockscreen_ring_title">Battery level around lock ring</string>
+    <string name="lockscreen_battery_around_lockscreen_ring_summary">Set to show battery level indicator around lock ring.</string>
     <string name="volume_rocker_wake_title">Volume wake</string>
     <string name="volume_rocker_wake_summary">Wake screen with volume rockers</string>
     <string name="volume_music_controls_title">Volume music controls</string>
@@ -1220,6 +1225,19 @@
     <string name="toggles_enable_haptic_feedback_title">Enable haptic feedback</string>
     <string name="toggles_enable_haptic_feedback_summary">Use haptic feedback when pressing toggles</string>
 
+    <!-- screen state service -->
+    <string name="screen_state_toggles_title">Suspend Actions</string>
+    <string name="screen_state_toggles_enable_title">Enable</string>
+    <string name="screen_state_toggles_enable_summary">Actions will be executed on screen off. On screen on the previous state will be restored.</string>
+    <string name="screen_state_toggles_mobile_title">Mobile networks</string>
+    <string name="screen_state_toggles_location_title">Location</string>
+    <string name="screen_state_toggles_twog">Switch to 2G</string>
+    <string name="screen_state_toggles_twog_summary">Network mode will be switched to 2G on screen off</string>
+    <string name="screen_state_toggles_gps">Disable GPS</string>
+    <string name="screen_state_toggles_gps_summary">GPS based location service will be disabled on screen off</string>
+    <string name="screen_state_toggles_mobile_data">Disable mobile data</string>
+    <string name="screen_state_toggles_mobile_data_summary">Mobile data will be disabled on screen off</string>
+
     <!-- Wakelock blocker -->
     <string name="wakelock_blocker">Wakelock Blocker</string>
     <string name="wakelock_blocker_title">Enable</string>
@@ -1233,6 +1251,30 @@
     <!-- dynamic changelog -->
     <string name="dynamic_changelog_title">Dynamic ChangeLog</string>
     <string name="dynamic_changelog_summary">Interactive changelog pulled live from our Gerrit instance</string>
+
+    <!-- ListView animation -->
+    <string name="listview_animation_title">ListView Animation</string>
+    <string name="listview_off">Off</string>
+    <string name="listview_wave_left">Wave (Left)</string>
+    <string name="listview_wave_right">Wave (Right)</string>
+    <string name="listview_alpha">Alpha</string>
+    <string name="listview_scale">Scale</string>
+    <string name="listview_stack_top">Stack (Top)</string>
+    <string name="listview_stack_bottom">Stack (Bottom)</string>
+    <string name="listview_unfold">Unfold</string>
+    <string name="listview_fold">Fold</string>
+    <string name="listview_translate_left">Translate (Left)</string>
+    <string name="listview_translate_right">Translate (Right)</string>
+
+    <!-- ListView interpolator -->
+    <string name="listview_interpolator_title">ListView Interpolator</string>
+    <string name="listview_accelerate_interpolator">accelerate_interpolator</string>
+    <string name="listview_decelerate_interpolator">decelerate_interpolator</string>
+    <string name="listview_accelerate_decelerate_interpolator">accelerate_decelerate_interpolator</string>
+    <string name="listview_anticipate_interpolator">anticipate_interpolator</string>
+    <string name="listview_overshoot_interpolator">overshoot_interpolator</string>
+    <string name="listview_anticipate_overshoot_interpolator">anticipate_overshoot_interpolator</string>
+    <string name="listview_bounce_interpolator">bounce_interpolator</string>
 
     <!-- Animation Controls -->
     <string name="title_animation_controls">Animations</string>
@@ -1251,41 +1293,73 @@
     <string name="summary_animation_no_override">Prevent apps from overriding transitions.</string>
     <string name="animation_duration_default">Default</string>
 
-    <!-- Active Display -->
-    <string name="ad_enable_title">Enable</string>
-    <string name="ad_enable_summary_on">Active display enabled</string>
-    <string name="ad_enable_summary_off">Active display disabled</string>
-    <string name="ad_text_title">Notification text</string>
-    <string name="ad_text_summary">Show the notification text around the ring.</string>
-    <string name="ad_all_notifications_title">All notifications</string>
-    <string name="ad_all_notifications_summary">Show all notifications including ongoing, non-clearable notifications.</string>
-    <string name="ad_hide_low_priority_title">Hide low priority</string>
-    <string name="ad_hide_low_priority_summary">Hide low priority notifications such as those from Google Now.</string>
-    <string name="ad_pocket_mode_title">Pocket mode</string>
-    <string name="ad_pocket_mode_summary">Show active display notifications when you take the device out of your pocket.</string>
-    <string name="ad_redisplay_title">Redisplay notifications</string>
-    <string name="ad_customizations_title">Customizations</string>
-    <string name="ad_excluded_apps_title">Excluded applications</string>
-    <string name="ad_excluded_apps_summary">Excluded applications will not show up in active display.</string>
-    <string name="ad_sunlight_mode_title">Sunlight mode</string>
-    <string name="ad_sunlight_mode_summary">Invert the colors when in areas with bright light such as direct sunlight.</string>
-    <string name="ad_brightness_title">Notification brightness</string>
-    <string name="ad_brightness_summary">Brightness level for displaying notifications when automatic brightness is not enabled.</string>
-    <string name="ad_show_date_title">Show date</string>
-    <string name="ad_show_date_summary">Show the date above the clock</string>
-    <string name="ad_show_ampm_title">Show AM/PM</string>
-    <string name="ad_show_ampm_summary">Show AM/PM indicator next to time when using 12hour format</string>
-    <string name="ad_redisplay_never">Never</string>
-    <string name="ad_redisplay_1m">1 minute</string>
-    <string name="ad_redisplay_5m">5 minutes</string>
-    <string name="ad_redisplay_15m">15 minutes</string>
-    <string name="ad_redisplay_30m">30 minutes</string>
-    <string name="ad_redisplay_1h">1 hour</string>
-    <string name="ad_redisplay_2h">2 hours</string>
-    <string name="ad_redisplay_5h">5 hours</string>
-    <string name="ad_pocket_mode_off">Off</string>
-    <string name="ad_pocket_mode_notifications">Notifications only</string>
-    <string name="ad_pocket_mode_always">Always</string>
+    <!-- Low battery warning mod -->
+    <string name="pref_low_battery_warning_policy_title">Low battery warning</string>
+    <string name="pref_low_battery_warning_policy_dialog_title">Indicate low battery warning with</string>
+    <string name="low_battery_warning_policy_popup_sound">Pop-up and sound</string>
+    <string name="low_battery_warning_policy_notif_sound">Notification and sound</string>
+    <string name="low_battery_warning_policy_popup">Pop-up dialog only</string>
+    <string name="low_battery_warning_policy_notif">Notification only</string>
+    <string name="low_battery_warning_policy_sound">Sound only</string>
+    <string name="low_battery_warning_policy_disabled">Disabled</string>
+
+    <!-- Tile background style and text color -->
+    <string name="tile_background_style_title">Tile background style</string>
+    <string name="tile_background_style_summary">Lets you choose from random, color fill or default background for tiles</string>
+    <string name="tile_background_color_title">Set tile background color</string>
+    <string name="tile_background_pressed_color_title">Set tile pressed background color</string>
+    <string name="tile_background_random">Random colors</string>
+    <string name="tile_background_color_fill">Color fill</string>
+    <string name="tile_background_default">Default background</string>
+    <string name="tile_custom_background_dialog_title">Tile background style</string>
+    <string name="tile_text_color_title">Set tile text color</string>
+
+    <!-- Random colors -->
+    <string name="custom_toggle_colors">Custom colors</string>
+    <string name="random_colors">Random colors</string>
+    <string name="random_colors_title">Set random colors</string>
+    <string name="random_colors_summary">Allows you to select your own random colors</string>
+    <string name="random_colors_reset_title">Reset random colors</string>
+    <string name="color_one">Color one</string>
+    <string name="color_two">Color two</string>
+    <string name="color_three">Color three</string>
+    <string name="color_four">Color four</string>
+    <string name="color_five">Color five</string>
+    <string name="color_six">Color six</string>
+
+   <!-- LCD Density -->
+    <string name="dpi">DPI</string>
+    <string name="su_dialog_error_title">Warning</string>
+    <string name="su_dialog_error_message">An error occurred.\n\nPlease check for root access. To activate go into superuser settings and enable root access.</string>
+    <string name="lcd_density_title">LCD Density</string>
+    <string name="lcd_density_summary">unknown</string>
+    <string name="current_lcd_density">"Current LCD Density: "</string>
+    <string name="lcd_density_wizard">LCD Density Wizard</string>
+    <string name="follow_through_title">Be advised:</string>
+    <string name="follow_through_summary">Its recommended to use a Multi-DPI Play Store to avoid issues after changing density.</string>
+    <string name="stock_density_title">Change LCD Density to stock values</string>
+    <string name="stock_density_summary">Tablets and older phones use 160. Most phones use 240. Galaxy Nexus uses 320 by default.</string>
+    <string name="stock_density_changed_summary">"Density set to: "</string>
+    <string name="reboot_title">Reboot!</string>
+    <string name="reboot_summary">and enjoy</string>
+    <string name="clear_market_data_title">3. Clear all relevant market data.</string>
+    <string name="clear_market_data_summary">This step clears data from market, google play services and google services framework.</string>
+    <string name="clear_market_data_cleared">Data successfully cleared</string>
+    <string name="reboot_cleardata_title">4. Reboot!</string>
+    <string name="reboot_cleardata_summary">Come back here after the reboot and complete the rest of the steps!</string>
+    <string name="open_market_title">5. Open Market and hit accept</string>
+    <string name="open_market_summary">Press back when done to return here.</string>
+    <string name="open_market_summary_could_not_open">"Couldn't open the market! If you're sure it's installed, open it yourself from the launcher."</string>
+    <string name="custom_density_title">Change density to whatever you like</string>
+    <string name="custom_density_summary">If you ever have compatibility issues with the Play Store, be sure to doublecheck if a Multi-DPI Play Store is installed.</string>
+    <string name="custom_density_summary_invalid">"INVALID DENSITY!"</string>
+    <string name="custom_density">custom</string>
+    <string name="set_custom_density_title">Set custom density</string>
+    <string name="set_custom_density_set">Set</string>
+    <string name="custom_density_dialog_title">"WARNING!"</string>
+    <string name="custom_density_dialog_summary">"Changing your LCD density can cause unexpected app behavior. If you encounter Play Store app incompatibility please doublecheck if u have installed a Multi-DPI Play Store."</string>
+    <string name="custom_density_dialog_button_got">Got it!</string>
+    <string name="custom_density_dialog_button_reboot">Reboot now</string>
 
     <!-- Hardware keys -->
     <string name="hardware_keys_enable_custom_title">Allow custom buttons</string>
@@ -1312,6 +1386,24 @@
     <string name="hardware_keys_action_last_app">Switch to last app</string>
     <string name="hardware_keys_action_power">Power button</string>
     <string name="hardware_keys_action_torch">Torch</string>
+    <string name="camera_wake_title">Camera button wake</string>
+    <string name="camera_wake_summary">Pressing the camera button will wake your device</string>
+    <string name="camera_sleep_on_release_title">Screen peek</string>
+    <string name="camera_sleep_on_release_summary">A half press will keep the screen on only while t
+he button is held down</string>
+    <string name="camera_music_controls_title">Playback control</string>
+    <string name="camera_music_controls_summary">When the screen is off, long pressing the camera ke
+y will play/pause current music track</string>
+
+    <!-- Auto-Hide Status Bar -->
+    <string name="auto_hide_statusbar">Auto Hide statusbar</string>
+    <string name="auto_hide_statusbar_summary">Statusbar hides itself when there are no notifications</string>
+
+    <!-- Statusbar swipe options -->
+    <string name="statusbar_quick_peek_title">Quick Peek</string>
+    <string name="statusbar_quick_peek_summary">Peek at statusbar by swiping from top edge of screen</string>
+    <string name="statusbar_swipe_timeout_title">Statusbar timeout</string>
+    <string name="statusbar_swipe_timeout_summary">Timeout for showing the statusbar</string>
 
     <!-- Fast Charge -->
     <string name="fast_charge_not_supported_title">Fast Charge not supported</string>

@@ -17,13 +17,6 @@ import java.util.Collections;
 public class About extends AOKPPreferenceFragment {
     public static final String TAG = "About";
 
-    private static final String AOKP = "http://aokp.co/";
-    private static final String MGERRIT = "com.jbirdvegas.mgerrit";
-    private static final String MGERRIT_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.jbirdvegas.mgerrit";
-    private static final String MGERRIT_MAIN_ENTRY = ".GerritControllerActivity";
-    private static final String MGERRIT_AOKP_CHANGELOG = ".AOKPChangelog";
-    private static final String TEAMKANG_IRC = "http://webchat.freenode.net/?channels=teamkang";
-
     Preference mSiteUrl;
     Preference mReviewUrl;
     Preference mIrcUrl;
@@ -58,36 +51,18 @@ public class About extends AOKPPreferenceFragment {
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
                                          Preference preference) {
         if (preference == mSiteUrl) {
-            launchUrl("http://www.infamousdevelopment.com/forum/");
+            launchUrl("http://www.infamousdevelopment.com/forum/forum/60-infamous-open-kang-project-iokp/");
             return true;
         } else if (preference == mReviewUrl) {
             launchUrl("http://goo.gl/6UENPD");
             return true;
         } else if (preference == mIrcUrl) {
-<<<<<<< HEAD
-            launchUrl("http://www.infamousdevelopment.com/index.php?topic=148.0");
-=======
-            launchUrl("http://www.infamousdevelopment.com/forum/index.php?/topic/264-change-log/");
->>>>>>> 802cbef92f94f41aeeb230d1cfa488cf30472c01
+            launchUrl("http://www.infamousdevelopment.com/forum/topic/264-change-log/");
             return true;
         } else if (preference == mDynamicChangelog) {
-            try {
-                launchActivity(MGERRIT, MGERRIT_AOKP_CHANGELOG);
-            } catch (ActivityNotFoundException failToMarket) {
-                launchUrl(MGERRIT_PLAYSTORE);
-            }
-            return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
-
-    private void launchActivity(String packageName, String activity)
-            throws ActivityNotFoundException {
-       Intent launch = new Intent();
-       launch.setComponent(new ComponentName(packageName, packageName + activity));
-       launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-       getActivity().startActivity(launch);
-   }
 
     private void launchUrl(String url) {
         Uri uriUrl = Uri.parse(url);

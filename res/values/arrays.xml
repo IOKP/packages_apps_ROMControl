@@ -993,47 +993,120 @@
         <item>6</item>
     </string-array>
 
-    <string-array name="ad_redisplay_entries" translatable="false">
-        <item>@string/ad_redisplay_never</item>
-        <item>@string/ad_redisplay_1m</item>
-        <item>@string/ad_redisplay_5m</item>
-        <item>@string/ad_redisplay_15m</item>
-        <item>@string/ad_redisplay_30m</item>
-        <item>@string/ad_redisplay_1h</item>
-        <item>@string/ad_redisplay_2h</item>
-        <item>@string/ad_redisplay_5h</item>
+<!-- Listview animation -->
+    <string-array name="listview_animation_entries">
+        <item>@string/listview_off</item>
+        <item>@string/listview_wave_left</item>
+        <item>@string/listview_wave_right</item>
+        <item>@string/listview_scale</item>
+        <item>@string/listview_alpha</item>
+        <item>@string/listview_stack_top</item>
+        <item>@string/listview_stack_bottom</item>
+        <item>@string/listview_unfold</item>
+        <item>@string/listview_fold</item>
+        <item>@string/listview_translate_left</item>
+        <item>@string/listview_translate_right</item>
     </string-array>
 
-    <string-array name="ad_redisplay_values" translatable="false">
+    <string-array name="listview_animation_values">
         <item>0</item>
-        <item>60000</item>
-        <item>300000</item>
-        <item>900000</item>
-        <item>1800000</item>
-        <item>3600000</item>
-        <item>7200000</item>
-        <item>18000000</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
     </string-array>
 
-    <string-array name="ad_pocket_mode_entries" translatable="false">
-        <item>@string/ad_pocket_mode_off</item>
-        <item>@string/ad_pocket_mode_notifications</item>
-        <item>@string/ad_pocket_mode_always</item>
+    <!-- Listview Interpolator -->
+    <string-array name="listview_interpolator_entries">
+        <item>@string/listview_off</item>
+        <item>@string/listview_accelerate_interpolator</item>
+        <item>@string/listview_decelerate_interpolator</item>
+        <item>@string/listview_accelerate_decelerate_interpolator</item>
+        <item>@string/listview_anticipate_interpolator</item>
+        <item>@string/listview_overshoot_interpolator</item>
+        <item>@string/listview_anticipate_overshoot_interpolator</item>
+        <item>@string/listview_bounce_interpolator</item>
     </string-array>
 
-    <string-array name="ad_pocket_mode_values" translatable="false">
+    <string-array name="listview_interpolator_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <!-- Low battery warning policy -->
+    <string-array name="pref_low_battery_warning_policy_entries">
+        <item>@string/low_battery_warning_policy_popup_sound</item>
+        <item>@string/low_battery_warning_policy_notif_sound</item>
+        <item>@string/low_battery_warning_policy_popup</item>
+        <item>@string/low_battery_warning_policy_notif</item>
+        <item>@string/low_battery_warning_policy_sound</item>
+        <item>@string/low_battery_warning_policy_disabled</item>
+    </string-array>
+
+    <string-array name="pref_low_battery_warning_policy_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <!-- Toggle tile background style -->
+    <string-array name="tile_background_style_entries">
+        <item>@string/tile_background_random</item>
+        <item>@string/tile_background_color_fill</item>
+        <item>@string/tile_background_default</item>
+    </string-array>
+    <string-array name="tile_background_style_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
 
+<string-array name="lcd_density_entries" translatable="false">
+        <item>160</item>
+        <item>182</item>
+        <item>200</item>
+        <item>220</item>
+        <item>240</item>
+        <item>245</item>
+        <item>268</item>
+        <item>280</item>
+        <item>300</item>
+        <item>320</item>
+        <item>340</item>
+        <item>361</item>
+        <item>420</item>
+        <item>480</item>
+        <item>@string/custom_density</item>
+    </string-array>
 
+    <string-array name="lcd_density_stock_entries">
+        <item>213 -- nexus7</item>
+        <item>240 -- hdpi</item>
+        <item>320 -- xhdpi</item>
+        <item>480 -- xxhdpi</item>
+    </string-array>
 
-
-
-
-
-
+    <string-array name="lcd_density_stock_values" translatable="false">
+        <item>213</item>
+        <item>240</item>
+        <item>320</item>
+        <item>480</item>
+    </string-array>
 
     <!-- Hardware Keys -->
     <string-array name="hardware_keys_action_entries" translatable="false">
@@ -1062,16 +1135,18 @@
         <item>9</item>
     </string-array>
 
-    <!-- Toggle tile background style -->
-    <string-array name="tile_background_style_entries">
-        <item>@string/tile_background_random</item>
-        <item>@string/tile_background_color_fill</item>
-        <item>@string/tile_background_default</item>
+    <!-- Hidden Statusbar Pulldown -->
+    <string-array name="statusbar_swipe_timeout_entries" translatable="false">
+        <item>2.5 seconds</item>
+        <item>5 seconds</item>
+        <item>7.5 seconds</item>
+        <item>10 seconds</item>
     </string-array>
-    <string-array name="tile_background_style_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+    <string-array name="statusbar_swipe_timeout_values" translatable="false">
+        <item>2500</item>
+        <item>5000</item>
+        <item>7500</item>
+        <item>10000</item>
     </string-array>
 
 </resources>

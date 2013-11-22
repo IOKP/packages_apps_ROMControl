@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceScreen;
@@ -25,6 +26,7 @@ public class StatusBarClock extends AOKPPreferenceFragment implements
     private static final String PREF_CLOCK_SHORTCLICK = "clock_shortclick";
     private static final String PREF_CLOCK_LONGCLICK = "clock_longclick";
     private static final String PREF_CLOCK_DOUBLECLICK = "clock_doubleclick";
+    private static final String PREF_CLOCK_DATE = "clock_date";
 
     private int shortClick = 0;
     private int longClick = 1;
@@ -41,6 +43,7 @@ public class StatusBarClock extends AOKPPreferenceFragment implements
     ListPreference mClockShortClick;
     ListPreference mClockLongClick;
     ListPreference mClockDoubleClick;
+    CheckBoxPreference mClockDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,9 +86,17 @@ public class StatusBarClock extends AOKPPreferenceFragment implements
         mClockDoubleClick.setOnPreferenceChangeListener(this);
         mClockDoubleClick.setSummary(getProperSummary(mClockDoubleClick));
 
+        mClockDate = (CheckBoxPreference) findPreference(PREF_CLOCK_DATE);
+        mClockDate.setChecked(Settings.System.getBoolean(mContentRes,
+                Settings.System.STATUSBAR_SHOW_DATE, false));
+         
+         if (Settings.System.getInt(mContentRes,
+                Settings.System.STATUSBAR_CLOCK_STYLE, 1) == 2) { //center clock
+            mClockDate.setEnabled(false);
+        }
+
         if (Integer.parseInt(mClockStyle.getValue()) == 0) {
             mClockAmPmstyle.setEnabled(false);
-            mColorPicker.setEnabled(false);
             mClockWeekday.setEnabled(false);
             mClockAmPmstyle.setSummary(R.string.enable_clock_location);
             mColorPicker.setSummary(R.string.enable_clock_location);
@@ -110,18 +121,24 @@ public class StatusBarClock extends AOKPPreferenceFragment implements
                     Settings.System.STATUSBAR_CLOCK_STYLE, val);
             if (val == 0) {
                 mClockAmPmstyle.setEnabled(false);
-                mColorPicker.setEnabled(false);
                 mClockWeekday.setEnabled(false);
                 mClockAmPmstyle.setSummary(R.string.enable_clock_location);
                 mColorPicker.setSummary(R.string.enable_clock_location);
                 mClockWeekday.setSummary(R.string.enable_clock_location);
             } else {
                 mClockAmPmstyle.setEnabled(true);
-                mColorPicker.setEnabled(true);
                 mClockWeekday.setEnabled(true);
                 mClockAmPmstyle.setSummary(null);
                 mColorPicker.setSummary(null);
                 mClockWeekday.setSummary(R.string.enable_clock_weekday_summary);
+            }
+            if (val == 2) { //center clock
+                Settings.System.putBoolean(mContentRes,
+                    Settings.System.STATUSBAR_SHOW_DATE, false);
+                mClockDate.setEnabled(false);
+                mClockDate.setChecked(false);
+            } else {
+                mClockDate.setEnabled(true);
             }
         } else if (preference == mColorPicker) {
             String hex = ColorPickerPreference.convertToARGB(Integer.valueOf(String
@@ -220,5 +237,16 @@ public class StatusBarClock extends AOKPPreferenceFragment implements
             return mPicker.getFriendlyNameForUri(uri);
         }
         return null;
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+                                         Preference preference) {
+        if (preference == mClockDate) {
+            Settings.System.putBoolean(mContentRes,
+                Settings.System.STATUSBAR_SHOW_DATE, mClockDate.isChecked());
+            return true;
+        }
+        return super.onPreferenceTreeClick(preferenceScreen, preference);       
     }
 }

@@ -18,6 +18,13 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:summary="@string/header_summary_general_ui" />
 
     <header
+        android:id="@+id/user_interface"
+        android:fragment="com.aokp.romcontrol.fragments.DensityChanger"
+        android:title="@string/lcd_density_title"
+        android:icon="@drawable/ic_rom_control_density_changer"/>
+
+
+    <header
         android:id="@+id/lockscreen"
         android:fragment="com.aokp.romcontrol.fragments.Lockscreens"
         android:title="@string/lockscreen_options"
@@ -53,19 +60,18 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:summary="@string/header_summary_hardware_keys" />
 
     <header
+        android:id="@+id/weather"
+        android:fragment="com.aokp.romcontrol.fragments.Weather"
+        android:title="@string/weather"
+        android:summary="@string/header_summary_weather"
+        android:icon="@drawable/ic_rom_control_weather" />
+
+    <header
         android:id="@+id/ribbon_targets"
         android:fragment="com.aokp.romcontrol.fragments.RibbonTargets"
         android:icon="@drawable/ic_rom_control_ribbon"
         android:title="@string/ribbon_settings_title"
         android:summary="@string/ribbon_settings_summary" />
-
-    <header
-        android:id="@+id/active_display"
-        android:fragment="com.aokp.romcontrol.fragments.ActiveDisplaySettings"
-        android:icon="@drawable/ic_rom_control_active_display"
-        android:title="@string/active_display"
-        android:summary="@string/header_summary_activedisplay"
-/>
 
     <header
         android:id="@+id/statusbar"
@@ -152,7 +158,13 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:icon="@drawable/ic_rom_control_installer"
         android:fragment="com.aokp.romcontrol.fragments.Installer" />
 
-   <header
+    <header
+        android:id="@+id/screen_state_service"
+        android:fragment="com.aokp.romcontrol.fragments.ScreenStateToggles"
+        android:icon="@drawable/ic_rom_control_screen_state"
+        android:title="@string/screen_state_toggles_title" />
+
+    <header
         android:id="@+id/wakelock_blocker"
         android:fragment="com.aokp.romcontrol.fragments.WakeLockBlocker"
         android:icon="@drawable/ic_rom_control_wakelock_blocker"

@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -114,6 +115,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
     private Button mLockTextColorButton;
     private Button mLockColorButton;
     private Switch mCameraWidgetSwitch;
+    private Switch mLockRingBatterySwitch;
 
     private TextView mWallpaperText;
     private TextView mGlowTorchText;
@@ -130,6 +132,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
     private TextView mLockAllWidgetsText;
     private TextView mLockUnlimitedWidgetsText;
     private TextView mCameraWidgetText;
+    private TextView mLockRingBatteryText;
 
     private ShortcutPickerHelper mPicker;
     private String[] targetActivities = new String[8];
@@ -430,15 +433,26 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         mCameraWidgetText = ((TextView) getActivity().findViewById(R.id.lockscreen_camera_widget_id));
         mCameraWidgetText.setOnClickListener(mCameraWidgetTextListener);
         mCameraWidgetSwitch = (Switch) getActivity().findViewById(R.id.lockscreen_camera_widget_switch);
-        mCameraWidgetSwitch
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton v, boolean checked) {
-                        Settings.System.putBoolean(cr,
-                                Settings.System.LOCKSCREEN_CAMERA_WIDGET_SHOW, checked);
-                        updateSwitches();
-                    }
-                });
+        mCameraWidgetSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean checked) {
+                Settings.System.putBoolean(cr,
+                        Settings.System.LOCKSCREEN_CAMERA_WIDGET_SHOW, checked);
+                updateSwitches();
+            }
+        });
+
+        mLockRingBatteryText = ((TextView) getActivity().findViewById(R.id.lockscreen_battery_around_lockscreen_ring_id));
+        mLockRingBatteryText.setOnClickListener(mLockRingBatteryTextListener);
+        mLockRingBatterySwitch = (Switch) getActivity().findViewById(R.id.lockscreen_battery_around_lockscreen_ring_switch);
+        mLockRingBatterySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean checked) {
+                Settings.System.putBoolean(cr,
+                        Settings.System.BATTERY_AROUND_LOCKSCREEN_RING, checked);
+                updateSwitches();
+            }
+        });
 
         if (isSW600DPScreen(mContext)) {
             // Lockscreen Camera Widget doesn't appear at SW600DP
@@ -607,6 +621,16 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         }
     };
 
+    private TextView.OnClickListener mLockRingBatteryTextListener = new TextView.OnClickListener() {
+        public void onClick(View v) {
+            createMessage(
+                    getResources().getString(
+                            R.string.lockscreen_battery_around_lockscreen_ring_title),
+                    getResources().getString(
+                            R.string.lockscreen_battery_around_lockscreen_ring_summary));
+        }
+    };
+
     private void updateSwitches() {
         if (wallpaperExists()) {
             mWallpaperButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_wallpaper_exists));
@@ -635,6 +659,8 @@ public class Lockscreens extends AOKPPreferenceFragment implements
                 Settings.System.LOCKSCREEN_USE_WIDGET_CONTAINER_CAROUSEL, false));
         mCameraWidgetSwitch.setChecked(Settings.System.getBoolean(cr,
                 Settings.System.LOCKSCREEN_CAMERA_WIDGET_SHOW, true));
+        mLockRingBatterySwitch.setChecked(Settings.System.getBoolean(cr,
+                Settings.System.BATTERY_AROUND_LOCKSCREEN_RING, false));
     }
 
 
@@ -969,26 +995,25 @@ public class Lockscreens extends AOKPPreferenceFragment implements
 
     private void prepareAndSetWallpaper() {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
-
-        int width = getActivity().getWallpaperDesiredMinimumWidth();
-        int height = getActivity().getWallpaperDesiredMinimumHeight();
-        float spotlightX = (float)display.getWidth() / width;
-        float spotlightY = (float)display.getHeight() / height;
+        int width = display.getWidth();
+        int height = display.getHeight();
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
         intent.setType("image/*");
         intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);
-        intent.putExtra("scaleUpIfNeeded", true);
-        intent.putExtra("aspectX", width);
-        intent.putExtra("aspectY", height);
+        boolean isPortrait = getResources()
+                .getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
+        intent.putExtra("aspectX", isPortrait ? width : height);
+        intent.putExtra("aspectY", isPortrait ? height : width);
         intent.putExtra("outputX", width);
         intent.putExtra("outputY", height);
-        intent.putExtra("spotlightX", spotlightX);
-        intent.putExtra("spotlightY", spotlightY);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, getLockscreenExternalUri());
-
+        intent.putExtra("scale", true);
+        intent.putExtra("scaleUpIfNeeded", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                getLockscreenExternalUri());
+        intent.putExtra("outputFormat",
+                Bitmap.CompressFormat.PNG.toString());
         startActivityForResult(intent, REQUEST_PICK_WALLPAPER);
     }
 

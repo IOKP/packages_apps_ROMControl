@@ -30,6 +30,8 @@ public class StatusBarBattery extends AOKPPreferenceFragment implements
     private static final String PREF_STATUS_BAR_CIRCLE_BATTERY_TEXT_COLOR = "circle_battery_text_color";
     private static final String PREF_STATUS_BAR_CIRCLE_BATTERY_ANIMATIONSPEED = "circle_battery_animation_speed";
 
+    private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
+
     ListPreference mBatteryIcon;
     ColorPickerPreference mCircleColor;
     ColorPickerPreference mCircleTextColor;
@@ -40,6 +42,7 @@ public class StatusBarBattery extends AOKPPreferenceFragment implements
     ListPreference mBatteryBarThickness;
     CheckBoxPreference mBatteryBarChargingAnimation;
     ColorPickerPreference mBatteryBarColor;
+    ListPreference mLowBatteryWarning;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,13 @@ public class StatusBarBattery extends AOKPPreferenceFragment implements
         mBatteryBarThickness.setOnPreferenceChangeListener(this);
         mBatteryBarThickness.setValue((Settings.System.getInt(mContentRes,
                 Settings.System.STATUSBAR_BATTERY_BAR_THICKNESS, 1)) + "");
+
+        mLowBatteryWarning = (ListPreference) findPreference(PREF_LOW_BATTERY_WARNING_POLICY);
+        int lowBatteryWarning = Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.POWER_UI_LOW_BATTERY_WARNING_POLICY, 3);
+        mLowBatteryWarning.setValue(String.valueOf(lowBatteryWarning));
+        mLowBatteryWarning.setSummary(mLowBatteryWarning.getEntry());
+        mLowBatteryWarning.setOnPreferenceChangeListener(this);
 
         boolean hasNavBarByDefault = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_showNavigationBar);
@@ -229,7 +239,13 @@ public class StatusBarBattery extends AOKPPreferenceFragment implements
             int val = Integer.parseInt((String) newValue);
             return Settings.System.putInt(mContentRes,
                     Settings.System.STATUSBAR_BATTERY_BAR_THICKNESS, val);
-
+        } else if (preference == mLowBatteryWarning) {
+            int lowBatteryWarning = Integer.valueOf((String) newValue);
+            int index = mLowBatteryWarning.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.POWER_UI_LOW_BATTERY_WARNING_POLICY, lowBatteryWarning);
+            mLowBatteryWarning.setSummary(mLowBatteryWarning.getEntries()[index]);
+            return true;
         }
         return false;
     }
